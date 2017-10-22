@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width" />
+	<title>Cari Penduduk</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#result').DataTable();
+		});
+	</script>
+</head>
+
+
+<body>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/">SI Kependudukan</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="/">Home</a></li>
+				<li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" href="#">Masukkan Data<span
+						class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="/penduduk/add">Data Penduduk</a></li>
+						<li><a href="/keluarga/add">Data Keluarga</a></li>
+					</ul></li>
+				<li><a href="/penduduk/find">Cari</a></li>
+			</ul>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div th:if="${view} == null" class="col-md-9">
+				<h3>Sistem Informasi Kependudukan Online Provinsi DKI Jakarta</h3>
+				<h5>Selamat datang di Sistem Informasi Kependudukan Online
+					Provinsi DKI Jakarta</h5>
+				<hr />
+
+				<h3>Cari Penduduk</h3>
+				<form class="form-group" action="/penduduk/find" method="GET" style="width:60%">
+					<div th:if="${view} == null" class="row" style="margin-left:5px">
+						<h4 for="kode_kota">Lihat data penduduk berdasarkan kota</h4>
+						<select class="form-control" name="nama_kota" required ="true" >
+							<option th:if="${nama_kota} != null" readonly="true" th:value="${nama_kota}" th:text="${nama_kota}"></option> 
+							<option th:if="${nama_kota} == null" selected="true" disabled="disabled"></option> 
+					        <option th:if="${nama_kota} == null" th:each="kota,iterationStatus:${listkota}" th:value="${kota.nama_kota}" th:text="${kota.nama_kota}">Kota</option>
+					    </select>
+					</div>
+					<div th:if="${nama_kota} != null" class="row" style="margin-left:5px">
+						<h4 for="kode_kecamatan" >Lihat data penduduk berdasarkan kecamatan</h4>
+						<select class="form-control" name="nama_kecamatan">
+							<option th:if="${nama_kecamatan} != null" th:value="${nama_kecamatan}" readonly="true" th:text="${nama_kecamatan}"></option> 
+							<option th:if="${nama_kecamatan} == null" selected="true" disabled="disabled"></option> 
+					        <option th:if="${nama_kecamatan} == null" th:each="kecamatan,iterationStatus:${listkecamatan}" th:value="${kecamatan.nama_kecamatan}" th:text="${kecamatan.nama_kecamatan}">Kecamatan</option>
+					    </select>
+					</div>
+					<div th:if="${nama_kecamatan} != null" class="row" style="margin-left:5px">
+						<h4 for="kode_kecamatan" >Lihat data penduduk berdasarkan kelurahan</h4>
+						<select class="form-control" name="nama_kelurahan">
+							<option th:if="${nama_kelurahan} != null" th:value="${nama_kelurahan}" readonly="true" th:text="${nama_kelurahan}"></option> 
+							<option th:if="${nama_kelurahan} == null" selected="true" disabled="disabled"></option>
+					        <option th:if="${nama_kelurahan} == null" th:each="kelurahan,iterationStatus: ${listkelurahan}" th:value="${kelurahan.nama_kelurahan}" th:text="${kelurahan.nama_kelurahan}">Kelurahan</option>
+					    </select>
+					</div>
+					<div>
+						<button class="btn btn-primary" style="margin-top:10px; margin-left:5px" type="submit">Lihat</button>
+					</div>
+				</form>
+				
+				<div th:if="${view} != null" class="row" style="margin-top:30px; margin-left:5px">
+					<h4 th:text="'Lihat data penduduk di ' + ${nama_kota} +  ' KECAMATAN ' + ${nama_kecamatan} + ' KELURAHAN ' + ${nama_kelurahan}"></h4>
+					<table id="result" class="table table-bordered" style="width:100%; text-align:center">
+						<thead>
+							<tr>
+								<td style="width:5%">No</td>
+								<td>Nama</td>
+								<td>NIK</td>
+								<td>Jenis Kelamin</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="penduduk,iterationStatus:${listpenduduk}">
+								<td style="width:5%" th:text="${iterationStatus.count}"> 1 </td>
+								<td th:text="${penduduk.nama}"></td>
+								<td th:text="${penduduk.nik}"></td>
+								<td th:text="${penduduk.jenis_kelamin} == 0 ? 'Laki-laki' : 'Perempuan'"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>		
+			</div>		
+			
+			<div class="col-md-2"></div>
+		</div>
+	</div>
+</body>
+</html>

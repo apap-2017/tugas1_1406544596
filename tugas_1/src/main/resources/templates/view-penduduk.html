@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width" />
+	<title>Lihat Data Penduduk</title>
+	<!-- <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="/webjars/font-awesome/css/font-awesome.min.css"></link>
+	<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script> -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+
+<body>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/">SI Kependudukan</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="/">Home</a></li>
+				<li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" href="#">Masukkan Data<span
+						class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="/penduduk/add">Data Penduduk</a></li>
+						<li><a href="/keluarga/add">Data Keluarga</a></li>
+					</ul></li>
+				<li><a href="/penduduk/find">Cari</a></li>
+			</ul>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-9">
+				<h3 th:text="'Lihat Data Penduduk - ' + ${penduduk.nik}">Lihat
+					Data Penduduk</h3>
+				<table class="table-condensed" style="margin-top: 30px; width: 70%">
+					<tbody>
+						<tr>
+							<td class="col-md-2">NIK</td>
+							<td class="col-md-4" th:text="${penduduk.nik}">Penduduk NIK</td>
+						</tr>
+						<tr>
+							<td class="col-md-2">Nama</td>
+							<td class="col-md-4" th:text="${penduduk.nama}">Penduduk
+								Nama</td>
+						</tr>
+						<tr>
+							<td class="col-md-2">Tempat/Tanggal Lahir</td>
+							<td class="col-md-4"
+								th:text="${penduduk.tempat_lahir} + ', ' + ${penduduk.tanggal_lahir}">
+								Penduduk Tempat Lahir/Penduduk Tanggal Lahir</td>
+						</tr>
+						<tr>
+							<td class="col-md-2">Alamat</td>
+							<td class="col-md-4" th:text="${keluarga.alamat}">Keluarga
+								Alamat</td>
+						</tr>
+						<tr>
+							<td class="col-md-2">RT/RW</td>
+							<td class="col-md-4"
+								th:text="${keluarga.RT} + '/' + ${keluarga.RW}">Keluarga
+								RT/RW</td>
+						</tr>
+						<tr>
+							<td class="col-md-2">Desa/Kelurahan</td>
+							<td class="col-md-4" th:text="${kelurahan.nama_kelurahan}">Kelurahan
+								Desa/Kelurahan</td>
+						</tr>
+						<tr>
+							<td class="col-md-2">Kecamatan</td>
+							<td class="col-md-4" th:text="${kecamatan.nama_kecamatan}">Kecamatan
+								kecamatan</td>
+						</tr>
+						<tr>
+							<td class="col-md-2">Kota</td>
+							<td class="col-md-4" th:text="${kota.nama_kota}">Kota kota</td>
+						</tr>
+						<tr>
+							<td class="col-md-2">Jenis Kelamin</td>
+							<td class="col-md-4"
+								th:text="${penduduk.jenis_kelamin} == 0 ? 'Laki-laki' : 'Perempuan'">Penduduk
+								Jenis Kelamin</td>
+						</tr>
+						<tr>
+							<td class="col-md-2">Agama</td>
+							<td class="col-md-4" th:text="${penduduk.agama}">Penduduk
+								Agama</td>
+						</tr>
+						<tr>
+							<td class="col-md-2">Golongan Darah</td>
+							<td class="col-md-4" th:text="${penduduk.golongan_darah}">Penduduk
+								Golongan Darah</td>
+						</tr>
+						<tr>
+							<td class="col-md-2">Status Perkawinan</td>
+							<td class="col-md-4" th:text="${penduduk.status_perkawinan}">Penduduk
+								Status Perkawinan</td>
+						</tr>
+						<tr>
+							<td class="col-md-2">Pekerjaan</td>
+							<td class="col-md-4" th:text="${penduduk.pekerjaan}">Penduduk
+								Pekerjaan</td>
+						</tr>
+						<tr>
+							<td class="col-md-2">Kewarganegaraan</td>
+							<td class="col-md-4"
+								th:text="${penduduk.is_wni} == 1 ? 'WNI' : 'WNA'">Penduduk
+								Kewarganegaraan</td>
+						</tr>
+						<tr>
+							<td class="col-md-2">Status Kematian</td>
+							<td class="col-md-4"
+								th:text="${penduduk.is_wafat} == 0 ? 'Hidup' : 'Wafat'">Penduduk
+								Status Kematian</td>
+						</tr>
+
+						<tr>
+							<td></td>
+							<td><a href="#" class="btn btn-danger">Nonaktifkan</a> <a
+								th:href="'/penduduk/update/' + ${penduduk.nik}"
+								class="btn btn-primary"> Update Data </a> <a
+								th:href="'/penduduk/status/{nik}' + ${penduduk.nik}"
+								class="btn btn-success"> Update Data </a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-md-2"></div>
+		</div>
+	</div>
+</body>
+</html>
